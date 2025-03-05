@@ -1,0 +1,44 @@
+﻿@page "/"
+
+@if (!HasCameraPermission)
+{
+    <p style="color: red;">Camera access is required to scan barcodes.</p>
+    <button @onclick="RequestCameraPermission">Grant Permission</button>
+}
+else
+{
+     <BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title="Scan Barcode from Camera"
+                                             StartCameraAutomatically="true"
+                                             ShowToggleTorch="true"
+                                             VideoWidth="500"
+                                             VideoHeight="400" />
+    <div>BAR CODE READER HERE</div>
+}
+<p>Scanned Barcode: @ScannedBarcode</p>
+@code {
+    private bool HasCameraPermission = false;
+    private string? ScannedBarcode;
+
+    protected override async Task OnInitializedAsync()
+    {
+        HasCameraPermission = await CheckCameraPermission();
+    }
+
+    private async Task<bool> CheckCameraPermission()
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        return status == PermissionStatus.Granted;
+    }
+
+    private async Task RequestCameraPermission()
+    {
+        var status = await Permissions.RequestAsync<Permissions.Camera>();
+        HasCameraPermission = HasCameraPermission = status == PermissionStatus.Granted;
+    }
+
+    private void BarcodeDetected(string barcode)
+    {
+        ScannedBarcode = barcode;
+        StateHasChanged();
+    }
+}

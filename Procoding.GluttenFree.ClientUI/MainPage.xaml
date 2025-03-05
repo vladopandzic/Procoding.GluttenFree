@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Procoding.GluttenFree.ClientUI"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="Procoding.GluttenFree.ClientUI.MainPage">
+
+
+    <Grid RowDefinitions="2*, 1*">
+        <!-- Upper part: Camera -->
+        <zxing:CameraBarcodeReaderView
+            x:Name="cameraBarcodeReaderView"
+            BarcodesDetected="BarcodesDetected"
+            BackgroundColor="White"/>
+
+        <!-- Lower part: Scan Result -->
+        <Frame Grid.Row="1"
+               x:Name="ResultFrame"
+               BackgroundColor="Transparent"
+               Padding="10"
+               Background="White"
+               CornerRadius="10"
+               Margin="10">
+            <StackLayout>
+                <Label x:Name="ResultLabel"
+                       Text="Scan a barcode to check"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       Background="White"
+                       TextColor="Black"/>
+                <Label x:Name="ProductLink"
+                       Text=""
+                       FontSize="16"
+                       HorizontalOptions="Center"
+                       TextColor="Blue"
+                       IsVisible="False"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>
